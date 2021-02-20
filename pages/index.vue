@@ -1,39 +1,45 @@
 <template>
-  <div class="container">
     <div>
-      <h1 class="title">
+     <!--  <h1 class="title">
         <img :src="require('~/assets/img/olalogo.png')" class="logo" />
-      </h1>
-      <div class="links">
-        <NuxtLink to="/course"> 课程体系 </NuxtLink>
-      </div>
-
-      <div class="links">
-        <NuxtLink to="/teacher"> 师资力量 </NuxtLink>
-      </div>
+      </h1> -->
+      <navMenu/>
+     <courseList :courseLists="coursesList"/>
     </div>
-  </div>
 </template>
 
 <script>
-export default {};
+import courseList from '../components/courseList.vue';
+import nav from '../components/nav.vue';
+export default {
+  data(){
+    return {
+      coursesList:[]
+    }
+  },
+  components: {
+    courseList:courseList,
+    navMenu:nav
+  },
+  async asyncData({ $axios }) {
+    let res = await $axios.get('/sessions?tagId=0&pageNum=1&pageSize=10')
+    return {
+      coursesList: res
+    }
+  },
+};
 </script>
-
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+ul,li,body,html{
+    padding:0;
+    margin:0;
+    list-style: none;
+  }
+
 .logo {
   max-width: 50%;
 }
 .title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 50px;

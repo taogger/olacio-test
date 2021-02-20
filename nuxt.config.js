@@ -18,8 +18,7 @@ export default {
       {
         hid: 'indexDesc',
         name: 'description',
-        content:
-          '欧那德语为学员提供专业德语网络培训课程，采用小班式线上互动授课，涵盖德语入门、基础到精通多个阶段，满足学员留学、移民、德福考试等多项需求。欧那德语提供免费试听课服务The amazing Nuxt application that teaches me all the cool features of Nuxt'
+        content: '欧那德语为学员提供专业德语网络培训课程，采用小班式线上互动授课，涵盖德语入门、基础到精通多个阶段，满足学员留学、移民、德福考试等多项需求。欧那德语提供免费试听课服务The amazing Nuxt application that teaches me all the cool features of Nuxt'
       }
     ],
     link: [
@@ -28,27 +27,42 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+  '~/plugins/axios'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-  ],
+  buildModules: [],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy'
+  ],
+  axios: {
+    // baseURL:'http://localhost:3000',  //配置网关地址
+    proxy: true,
+    prefix: '/api',
+  },
+  proxy: [
+      [
+        '/api', 
+        { 
+          target: 'https://m.de.olacio.com/2018/', // api主机
+          pathRewrite: { '^/api' : '/api' }
+        }
+    ]
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extractCSS: { allChunks: true }
+    extractCSS: { allChunks: true },
   },
   render: {
     resourceHints: false, //取消首屏加载全部js
@@ -56,5 +70,5 @@ export default {
   router: {
     prefetchLinks: false //取消预加载
   },
-  
+
 }
